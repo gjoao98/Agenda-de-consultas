@@ -1,7 +1,29 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../services/api'
+
+
+interface IConsultas {
+    name: string;
+    especiality: string;
+    description: string;
+}
 
 const Cadastro: React.FC = () => {
+
+    const [model, setModel] = useState<IConsultas>({
+        name: '',
+        especiality: '',
+        description: '',
+    })
+
+    function updatedModel(e: ChangeEvent<HTMLInputElement>) {
+        setModel({
+            ...model,
+            [e.target.name]: e.target.value
+        })
+    }
+
     return (
         <header>
 
@@ -10,12 +32,14 @@ const Cadastro: React.FC = () => {
             <form id="cadastro-de-consulta">
                 <div className="input-block">
                     <label htmlFor="subject">Nome</label>
-                    <input type="text" id="subject" />
+                    <input type="text" id="subject"
+                        name="name" onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                 </div>
 
                 <div className="input-block">
                     <label htmlFor="especiality">Especialidade</label>
-                    <input type="text" id="subject" />
+                    <input type="text-area" id="subject"
+                        name="especiality" onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                 </div>
 
                 <div className="input-block">
@@ -30,16 +54,22 @@ const Cadastro: React.FC = () => {
 
                 <div className="input-block">
                     <label htmlFor="description">Descrição</label>
-                    <input type="text" id="subject" />
+                    <input type="text" id="subject"
+                        name="description" onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                 </div>
             </form>
 
-            <Link to="/Editar" className="Editar">
+            <Link to="/editar" className="Editar">
                 <button type="button">
-                    Editar
+                    Cancelar
                 </button>
             </Link>
 
+            <Link to="/editar" className="Editar">
+                <button type="button">
+                    Salvar
+                </button>
+            </Link>
         </header>
     );
 }
